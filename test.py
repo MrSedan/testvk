@@ -13,6 +13,11 @@ def send(text,attach=0):
         attachment=attach
     )
 
-for event in longpoll.listen()s:
+for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW:
-        send("Test")
+        text=event.obj.text
+        if text.lower().startswith(".kick "):
+            mes=text.split()[1]
+            mes=mes[mes.find("[")+1:mes.find("|")]
+            id=vk.users.get(user_ids=mes)[0]['id']
+            vk.messages.removeChatUser(chat_id=event.chat_id, user_id=id)
